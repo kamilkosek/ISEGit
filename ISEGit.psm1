@@ -4,11 +4,12 @@ $MyInvocation.MyCommand.ScriptBlock.Module.OnRemove = {
     Set-Content Function:\prompt -Value $oldPrompt
 }
 
+Import-Module $(Join-Path $PSScriptRoot PSGit.psm1)
 $isISE = $host.Name -eq 'Windows PowerShell ISE Host'
-
+$hasSteroidsLoaded = (get-command Get-SteroidsVersion) -ne $null
 if ($isISE) {
-    if (-not ($Menu = $psISE.CurrentPowerShellTab.AddOnsMenu.Submenus | 
-        Where-Object { $_.DisplayName -eq 'ISEGit' })) {
+    if (-not ($Menu = $psISE.CurrentPowerShellTab.AddOnsMenu.Submenus | Where-Object { $_.DisplayName -eq 'ISEGit' })) 
+    {
         $Menu = $psISE.CurrentPowerShellTab.AddOnsMenu.Submenus.Add('ISEGit', $null, $null)
     }
 }
